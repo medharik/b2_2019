@@ -1,0 +1,32 @@
+.pleinHauteur {
+  height: calc(100vh - 40px);
+  width: 100vw !important;
+}
+.titre {
+  height: 40px;
+  line-height: 40px;
+  font-size: medium;
+  background: rgba(255, 255, 255, 0.9);
+}
+.titre + div {
+  margin-top: 50px;
+}
+.pf {
+  position: fixed;
+  top: 0;
+  width: 100%;
+  z-index: 2;
+}
+
+.coord {
+  height: 30%;
+}
+
+.contact {
+  height: 70%;
+}
+
+.fa {
+  font-size: 3em;
+  color: orangered;
+}
