@@ -1,6 +1,20 @@
 <?php 
 include("modeles.php");
 $produits=all();
+$notice="";
+$classe="d-none";
+if(isset($_GET['op'])){
+ $classe="d-block mt-3";   
+$op=$_GET['op'];
+    if($op=='del'){
+        $notice="Suppression effectuee avec succes ";
+    }
+    if($op=='upd'){
+        $notice="Modification effectuee avec succes ";
+    }
+
+
+}
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -10,10 +24,11 @@ $produits=all();
     <title>nouveau produit</title>
     <?php include("_css.php");?>
 </head>
-<body>
+<body   oncontextmenu="return false">
 <?php include_once("_menu.php");?>
 <div class="container">
 <a href="create.php" class="btn btn-primary float-right my-3">Nouveau</a>
+<div class="alert alert-info <?=$classe?>" style="clear:both"><?=$notice?></div>
     <table class="table table-striped">
     <thead>
      <tr>
@@ -27,9 +42,10 @@ $produits=all();
        <tr> <td><?=$p['id']?></td>
         <td><?=$p['libelle']?></td>
         <td><?=$p['prix']?></td>
-        <td><a href="" class="btn btn-sm btn-danger">Supprimer</a>
-        <a href="" class="btn btn-sm btn-warning">Modifier</a>
-        <a href="" class="btn btn-sm btn-info">Consulter</a></td></tr>
+        <td>    <a onclick="return confirm('supprimer?')"  href="delete.php?id=<?=$p['id']?>" class="btn btn-sm btn-danger">Supprimer</a>
+
+        <a href="edit.php?id=<?=$p['id']?>" class="btn btn-sm btn-warning">Modifier</a>
+        <a href="show.php?ounacer=<?=$p['id']?>" class="btn btn-sm btn-info">Consulter</a></td></tr>
        <?php } ?>
 
     </tbody>

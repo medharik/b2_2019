@@ -33,7 +33,7 @@ $produits=all();
     <td><?=$p['prix']?></td>
     <td><?=$p['qte']?></td>
     <td>
-    <a href="" class="btn btn-sm btn-danger">Supprimer</a>
+    <a href="delete.php?id=<?=$p['id']?>" class="btn btn-sm btn-danger">Supprimer</a>
     <a href="" class="btn btn-sm btn-warning">Modifier</a>
     <a href="" class="btn btn-sm btn-info">Consulter</a>
     </td>

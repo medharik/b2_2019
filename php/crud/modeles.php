@@ -71,11 +71,9 @@ return $resultat;
             //preparer une requete SQL
             $rp= $link->prepare("select * from produit where id=? ");
             //execution de la requete sur la connexion
-    
             $rp->execute([$id]);
             $resultat=$rp->fetch(PDO::FETCH_ASSOC);
-    
-    return $resultat;
+        return $resultat;
         }catch(PDOException $x){
             echo "une erreur de selection  par id = $id : ".$x->getMessage();
         }
@@ -92,7 +90,7 @@ function modifier($libelle, $prix,$id){
         //execution de la requete sur la connexion
         $rp->execute([$libelle, $prix,$id]);
     }catch(PDOException $e){
-        echo "une erreur de modification ".$e->getMessage();
+    echo "une erreur de modification ".$e->getMessage();
     }
     }
 
