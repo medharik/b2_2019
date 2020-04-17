@@ -12,7 +12,7 @@
     <div class="row">
         <div class="col-md-6 shadow p-3 mx-auto mt-3">
 
-        <form action="store.php" method="post">
+        <form action="store.php" method="post" enctype="multipart/form-data">
 
 <fieldset>
 <legend class="text-primary text-center">Nouveau produit : </legend>
@@ -21,6 +21,9 @@
         </div>
         
         <div class="form-groupe">Prix : <label for="prix"></label><input type="text" name="prix" class="form-control">
+        
+        </div>
+        <div class="form-groupe">Photo : <label for="photo"></label><input type="file" name="photo" class="form-control">
         
         </div>
         <button class="btn- btn-primary btn-block col-md-6 mx-auto mt-3">

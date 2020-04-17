@@ -33,6 +33,7 @@ $op=$_GET['op'];
     <thead>
      <tr>
      <th>#</th>
+        <th>Photo</th>
         <th>Libelle</th>
         <th>Prix</th>
         <th>Actions</th></tr>
@@ -40,6 +41,7 @@ $op=$_GET['op'];
     <tbody>
        <?php foreach($produits as $p) {?>
        <tr> <td><?=$p['id']?></td>
+       <td><img src="<?=$p['photo']?>" width="100"></td>
         <td><?=$p['libelle']?></td>
         <td><?=$p['prix']?></td>
         <td>    <a onclick="return confirm('supprimer?')"  href="delete.php?id=<?=$p['id']?>" class="btn btn-sm btn-danger">Supprimer</a>
@@ -52,6 +54,20 @@ $op=$_GET['op'];
     
     </table>
 
+<hr>
+
+<div class="row">
+<?php foreach($produits as $p) {?>
+
+    <div class="col-md-3 text-center shadow">
+            <img src="<?=$p['photo']?>" class="img-fluid " >
+            <h4><?=$p['libelle']?></h4>        
+            <h4><?=$p['prix']?>DHS</h4>
+            <a href="show.php?ounacer=<?=$p['id']?>" class="btn btn-primary btn-sm">DETAILS</a>        
+    </div>
+
+<?php } ?>
+</div>
 </div>
     
 </body>

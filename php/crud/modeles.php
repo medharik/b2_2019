@@ -14,16 +14,16 @@ function connecter_db(){
     return $link;
 }
 
-// ajout : ajoute  les datas d'un produit dans la bd en lui donnant : libelle , prix
-function ajouter($libelle,$prix){
+// ajout : ajoute  les datas d'un produit dans la bd en lui donnant : libelle , prix, photo
+function ajouter($libelle,$prix,$photo){
     try{
 
         //connexion db
         $link=connecter_db();
         //preparer une requete SQL
-        $rp= $link->prepare("insert into produit (libelle, prix ) values (?,?)");
+        $rp= $link->prepare("insert into produit (libelle, prix, photo ) values (?,?,?)");
         //execution de la requete sur la connexion
-        $rp->execute([$libelle,$prix]);
+        $rp->execute([$libelle,$prix,$photo]);
 }catch(PDOException $e){
     echo "une erreur d'ajout ".$e->getMessage();
 }
@@ -81,14 +81,14 @@ return $resultat;
 
 
 //modifier
-function modifier($libelle, $prix,$id){
+function modifier($libelle, $prix,$photo,$id){
     try{
         //connexion db
         $link=connecter_db();
         //preparer une requete SQL
-        $rp= $link->prepare("update produit set libelle=? , prix=? where id= ? ");
+        $rp= $link->prepare("update produit set libelle=? , prix=? , photo=? where id= ? ");
         //execution de la requete sur la connexion
-        $rp->execute([$libelle, $prix,$id]);
+        $rp->execute([$libelle, $prix,$photo,$id]);
     }catch(PDOException $e){
     echo "une erreur de modification ".$e->getMessage();
     }
@@ -97,3 +97,12 @@ function modifier($libelle, $prix,$id){
 
 
 
+    // televersement = upload d'un fichier
+// infos sur fichier : array( name=> 'a.png' , tmp_name  , size , error, type
+    function uploader($infos){
+$name =$infos['name'];
+$tmp =$infos['tmp_name'];
+$chemin="images/$name";//images/a.png
+move_uploaded_file($tmp,$chemin);
+return $chemin;
+    }
