@@ -137,3 +137,27 @@ else if(!in_array($extension,$autorise) ){
 
          
     }
+
+
+    // recherche 
+ function    rechercher($motcle){
+    try{
+        //connexion db
+        $link=connecter_db();
+        //preparer une requete SQL
+        $rp= $link->prepare("select * from produit where libelle like ? or prix like ?  ");
+
+        //execution de la requete sur la connexion
+
+        $rp->execute(["%$motcle%","%$motcle%"]);
+        $resultat=$rp->fetchAll(PDO::FETCH_ASSOC);
+
+return $resultat;
+    }catch(PDOException $e){
+        echo "une erreur de selection ".$e->getMessage();
+    }
+   
+
+ }
+
+    // fin recherche 

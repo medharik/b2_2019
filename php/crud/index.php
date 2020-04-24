@@ -1,6 +1,12 @@
 <?php 
 include("modeles.php");
-$produits=all();
+if(isset($_GET['motcle']) && !empty($_GET['motcle'])   ){
+$produits=rechercher($_GET['motcle']);
+}else{
+    $produits=all();
+}
+
+
 $notice="";
 $classe="d-none";
 if(isset($_GET['op'])){
@@ -23,13 +29,25 @@ $op=$_GET['op'];
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>nouveau produit</title>
     <?php include("_css.php");?>
+    <link rel="stylesheet" href="https://cdn.datatables.net/1.10.20/css/jquery.dataTables.min.css">
 </head>
-<body   oncontextmenu="return false">
+<body  >
 <?php include_once("_menu.php");?>
 <div class="container">
 <a href="create.php" class="btn btn-primary float-right my-3">Nouveau</a>
+
+<form action="index.php" method="get">
+Mot clé : <input type="text" name="motcle" autocomplete="off" value="<?php 
+
+if(isset($_GET['motcle']) && !empty($_GET['motcle'])   ){
+echo $_GET['motcle']; 
+}
+?>">
+<button class="btn btn-sm btn-primary">Recherche</button>
+</form>
+
 <div class="alert alert-info <?=$classe?>" style="clear:both"><?=$notice?></div>
-    <table class="table table-striped">
+    <table class="table table-striped" id="houcine">
     <thead>
      <tr>
      <th>#</th>
@@ -69,6 +87,26 @@ $op=$_GET['op'];
 <?php } ?>
 </div>
 </div>
-    
+
+<script
+  src="https://code.jquery.com/jquery-3.5.0.min.js"
+  integrity="sha256-xNzN2a4ltkB44Mc/Jz3pT4iU1cmeR0FkXs4pru/JxaQ="
+  crossorigin="anonymous"></script>
+
+  <script src="https://cdn.datatables.net/1.10.20/js/jquery.dataTables.min.js"></script>
+  <script>
+  $(document).ready( function () {
+    $('#houcine').DataTable(
+        {
+        "language": {
+            "url": "https://cdn.datatables.net/plug-ins/1.10.20/i18n/French.json"
+        }
+    } 
+
+
+    );
+} );
+  
+  </script>
 </body>
 </html>
