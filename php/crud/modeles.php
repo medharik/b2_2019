@@ -12,14 +12,12 @@ function connecter_db(){
     $link = new PDO('mysql:host=localhost;dbname=bestdb2020', "root", "");
     // pour activer la gestion des erreurs par try catch
     $link->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-
     return $link;
 }
-
+// produit
 // ajout : ajoute  les datas d'un produit dans la bd en lui donnant : libelle , prix, photo
 function ajouter($libelle,$prix,$photo){
     try{
-
         //connexion db
         $link=connecter_db();
         //preparer une requete SQL
@@ -32,57 +30,8 @@ function ajouter($libelle,$prix,$photo){
 
 }
 
-// suppression
-function supprimer($id){
-try{
-    //connexion db
-    $link=connecter_db();
-    //preparer une requete SQL
-    $rp= $link->prepare("delete from  produit where id=?");
-    //execution de la requete sur la connexion
-    $rp->execute([$id]);
-}catch(PDOException $e){
-    echo "une erreur de suppression ".$e->getMessage();
-}
-}
 
-
-
-// affichage (liste ou lecture (read) )
-function all(){
-    try{
-        //connexion db
-        $link=connecter_db();
-        //preparer une requete SQL
-        $rp= $link->prepare("select * from produit ");
-        //execution de la requete sur la connexion
-
-        $rp->execute([]);
-        $resultat=$rp->fetchAll(PDO::FETCH_ASSOC);
-
-return $resultat;
-    }catch(PDOException $e){
-        echo "une erreur de selection ".$e->getMessage();
-    }
-    }
-    // recuperer une ressource  par son id
-    function find($id){
-        try{
-            //connexion db
-            $link=connecter_db();
-            //preparer une requete SQL
-            $rp= $link->prepare("select * from produit where id=? ");
-            //execution de la requete sur la connexion
-            $rp->execute([$id]);
-            $resultat=$rp->fetch(PDO::FETCH_ASSOC);
-        return $resultat;
-        }catch(PDOException $x){
-            echo "une erreur de selection  par id = $id : ".$x->getMessage();
-        }
-        }
-
-
-//modifier
+//modifier produit
 function modifier($libelle, $prix,$photo,$id){
     try{
         //connexion db
@@ -95,6 +44,88 @@ function modifier($libelle, $prix,$photo,$id){
     echo "une erreur de modification ".$e->getMessage();
     }
     }
+
+// Categorie 
+function ajouter_categorie($nom,$photo){
+    try{
+        //connexion db
+        $link=connecter_db();
+        //preparer une requete SQL
+        $rp= $link->prepare("insert into categorie (nom, photo ) values (?,?)");
+        //execution de la requete sur la connexion
+        $rp->execute([$nom,$photo]);
+}catch(PDOException $e){
+    echo "une erreur d'ajout de la categorie ".$e->getMessage();
+}
+
+}
+
+//modifier
+function modifier_categorie($nom,$photo,$id){
+    try{
+        //connexion db
+        $link=connecter_db();
+        //preparer une requete SQL
+        $rp= $link->prepare("update categorie set nom=?  , photo=? where id= ? ");
+        //execution de la requete sur la connexion
+        $rp->execute([$nom,$photo,$id]);
+    }catch(PDOException $e){
+    echo "une erreur de modification de la categorie ".$e->getMessage();
+    }
+    }
+
+// fin categorie 
+
+// suppression
+function supprimer($id,$table="produit"){
+try{
+    //connexion db
+    $link=connecter_db();
+    //preparer une requete SQL
+    $rp= $link->prepare("delete from  $table where id=?");
+    //execution de la requete sur la connexion
+    $rp->execute([$id]);
+}catch(PDOException $e){
+    echo "une erreur de suppression de $table ".$e->getMessage();
+}
+}
+
+// all("categorie")
+
+// affichage (liste ou lecture (read) )
+function all($table="produit"){
+    try{
+        //connexion db
+        $link=connecter_db();
+        //preparer une requete SQL
+        $rp= $link->prepare("select * from $table ");
+        //execution de la requete sur la connexion
+
+        $rp->execute([]);
+        $resultat=$rp->fetchAll(PDO::FETCH_ASSOC);
+
+return $resultat;
+    }catch(PDOException $e){
+        echo "une erreur de selection  ".$e->getMessage();
+    }
+    }
+    // recuperer une ressource  par son id
+    function find($id,$table="produit"){
+        try{
+            //connexion db
+            $link=connecter_db();
+            //preparer une requete SQL
+            $rp= $link->prepare("select * from $table where id=? ");
+            //execution de la requete sur la connexion
+            $rp->execute([$id]);
+            $resultat=$rp->fetch(PDO::FETCH_ASSOC);
+        return $resultat;
+        }catch(PDOException $x){
+            echo "une erreur de selection  par id = $id : ".$x->getMessage();
+        }
+        }
+
+
 
 
 
@@ -139,7 +170,7 @@ else if(!in_array($extension,$autorise) ){
     }
 
 
-    // recherche 
+    // recherche d'un produit
  function    rechercher($motcle){
     try{
         //connexion db

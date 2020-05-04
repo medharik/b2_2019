@@ -10,7 +10,10 @@
         <a class="nav-link" href="#">Produits <span class="sr-only">(current)</span></a>
       </li>
       <li class="nav-item active">
-        <a class="nav-link" href="#">Categories <span class="sr-only"></span></a>
+        <a class="nav-link" href="index_categorie">Categories <span class="sr-only"></span></a>
+      </li>
+      <li class="nav-item active">
+        <a class="nav-link" href="create_categorie.php">Nouvelle categorie <span class="sr-only"></span></a>
       </li>
 
     </ul>
