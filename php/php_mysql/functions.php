@@ -7,13 +7,18 @@ function connecter_db(){
 }
 
 // fonction pour ajouter  un produit ds la bd
-function ajouter_produit($libelle , $prix,$qte){
+function ajouter_produit($libelle , $prix,$qte,$categorie_id){
+try{
 //connecter db
 $link= connecter_db();
 // preparer une requete (demande)
-$rp=$link->prepare("insert into produit(libelle,prix,qte) values(?,?,?)");
+$rp=$link->prepare("insert into produit(libelle,prix,qte,categorie_id) values(?,?,?,?)");
 //execute la requete 
-$rp->execute([$libelle , $prix,$qte]);
+$rp->execute([$libelle , $prix,$qte,$categorie_id]);
+
+}catch(){
+
+}
 }
 
 // fonction pour recuperer les donnees des produits depuis la base de donnees

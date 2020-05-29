@@ -1,6 +1,5 @@
 
 <?php
-
 // les fonctions CRUD
 // functions (sous programmes )  : 
 // connecter_db
@@ -16,14 +15,15 @@ function connecter_db(){
 }
 // produit
 // ajout : ajoute  les datas d'un produit dans la bd en lui donnant : libelle , prix, photo
-function ajouter($libelle,$prix,$photo){
+function ajouter($libelle,$prix,$photo,$categorie_id,$place=""){
     try{
         //connexion db
         $link=connecter_db();
         //preparer une requete SQL
-        $rp= $link->prepare("insert into produit (libelle, prix, photo ) values (?,?,?)");
+        $rp= $link->prepare("insert into produit (libelle, prix, photo,categorie_id ,place )
+         values (?,?,?,?,?)");
         //execution de la requete sur la connexion
-        $rp->execute([$libelle,$prix,$photo]);
+    $rp->execute([$libelle,$prix,$photo,$categorie_id,$place]);
 }catch(PDOException $e){
     echo "une erreur d'ajout ".$e->getMessage();
 }
@@ -32,14 +32,22 @@ function ajouter($libelle,$prix,$photo){
 
 
 //modifier produit
-function modifier($libelle, $prix,$photo,$id){
+function modifier($libelle, $prix,$id,$photo="",$place=""){
     try{
         //connexion db
         $link=connecter_db();
-        //preparer une requete SQL
-        $rp= $link->prepare("update produit set libelle=? , prix=? , photo=? where id= ? ");
+        if(empty($photo)){
+               //preparer une requete SQL
+        $rp= $link->prepare("update produit set libelle=? , prix=?, place=? where id= ? ");
         //execution de la requete sur la connexion
-        $rp->execute([$libelle, $prix,$photo,$id]);
+        $rp->execute([$libelle, $prix,$place,$id]); 
+        }else{
+                  //preparer une requete SQL
+        $rp= $link->prepare("update produit set libelle=? , prix=?, place=? , photo=? where id= ? ");
+        //execution de la requete sur la connexion
+        $rp->execute([$libelle, $prix,$place,$photo,$id]);    
+        }
+    
     }catch(PDOException $e){
     echo "une erreur de modification ".$e->getMessage();
     }
@@ -61,14 +69,14 @@ function ajouter_categorie($nom,$photo){
 }
 
 //modifier
-function modifier_categorie($nom,$photo,$id){
+function modifier_categorie($nom,$id){
     try{
         //connexion db
         $link=connecter_db();
         //preparer une requete SQL
-        $rp= $link->prepare("update categorie set nom=?  , photo=? where id= ? ");
+        $rp= $link->prepare("update categorie set nom=?   where id= ? ");
         //execution de la requete sur la connexion
-        $rp->execute([$nom,$photo,$id]);
+        $rp->execute([$nom,$id]);
     }catch(PDOException $e){
     echo "une erreur de modification de la categorie ".$e->getMessage();
     }
@@ -77,6 +85,7 @@ function modifier_categorie($nom,$photo,$id){
 // fin categorie 
 
 // suppression
+
 function supprimer($id,$table="produit"){
 try{
     //connexion db
@@ -91,7 +100,7 @@ try{
 }
 
 // all("categorie")
-
+// all() => table produit (par default)
 // affichage (liste ou lecture (read) )
 function all($table="produit"){
     try{
@@ -109,6 +118,25 @@ return $resultat;
         echo "une erreur de selection  ".$e->getMessage();
     }
     }
+
+
+    // trouver par 
+    function findBy($table="produit",$condition , $limit=""){
+        try{
+            //connexion db
+            $link=connecter_db();
+            //preparer une requete SQL
+            $rp= $link->prepare("select * from $table where $condition order by id desc $limit");
+            //execution de la requete sur la connexion
+    
+            $rp->execute([]);
+            $resultat=$rp->fetchAll(PDO::FETCH_ASSOC);
+    
+    return $resultat;
+        }catch(PDOException $e){
+            echo "une erreur de selection  ".$e->getMessage();
+        }
+        }
     // recuperer une ressource  par son id
     function find($id,$table="produit"){
         try{
@@ -190,5 +218,57 @@ return $resultat;
    
 
  }
+    // recherche d'une categorie
+ function    rechercher_categorie($motcle){
+    try{
+        //connexion db
+        $link=connecter_db();
+        //preparer une requete SQL
+        $rp= $link->prepare("select * from categorie where nom like ? ");
+
+        //execution de la requete sur la connexion
+
+        $rp->execute(["%$motcle%"]);
+        $resultat=$rp->fetchAll(PDO::FETCH_ASSOC);
+
+return $resultat;
+    }catch(PDOException $e){
+        echo "une erreur de selection ".$e->getMessage();
+    }
+   
+
+ }
 
     // fin recherche 
+
+    //Exemple de  jointure interne
+    //  select employees.first_name , employees.last_name , jobs.job_title from employees join jobs on jobs.job_id = employees.job_id  
+// where jobs.job_title like 'Programmer'
+// select catalogue .*, clients.nom , clients.prenom 
+// from clients join commandes on clients.num_client = commandes.cli_com
+// join detail_commandes d on num_com=com_det
+// join catalogue on ref_det =code_article
+// where clients.nom ='benito' 
+
+
+
+function jointure_produit_commande(){
+    try{
+        //connexion db
+        $link=connecter_db();
+        //preparer une requete SQL
+        $rp= $link->prepare("select produit.*, categorie.nom , categorie.photo as photo_categorie , categorie.id as categorie_id 
+        from produit join  categorie on categorie.id=produit.categorie_id  ");
+        //execution de la requete sur la connexion
+
+        $rp->execute([]);
+        $resultat=$rp->fetchAll(PDO::FETCH_ASSOC);
+
+return $resultat;
+    }catch(PDOException $e){
+        echo "une erreur de selection  ".$e->getMessage();
+    }
+    }
+//exemple de jointure interne  entre table 
+    // select employees.first_name , employees.last_name , jobs.job_title from employees join jobs on jobs.job_id = employees.job_id  
+    // where jobs.job_title like 'Programmer'

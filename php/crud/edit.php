@@ -27,6 +27,9 @@ $produit=find($id);
         <div class="form-groupe">Prix : <label for="prix"></label><input  value="<?=$produit['prix']?>" type="text" name="prix" class="form-control">
         
         </div>
+        <div class="form-groupe">place : <label for="prix"></label><input  value="<?=$produit['place']?>" type="text" name="place" class="form-control">
+        
+        </div>
         <button class="btn- btn-primary btn-block col-md-6 mx-auto mt-3">
         Valider
         </button>

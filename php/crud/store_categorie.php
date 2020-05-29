@@ -16,5 +16,5 @@ die($chemin);
     // echo " fichier charger vers le chemin suivant $chemin";
     ajouter_categorie($nom,$chemin);
     //redirection vers indeex.php
-//header("location:index_categorie.php");
+header("location:index_categorie.php");
 ?>

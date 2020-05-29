@@ -54,6 +54,8 @@ echo $_GET['motcle'];
         <th>Photo</th>
         <th>Libelle</th>
         <th>Prix</th>
+        <th>Place</th>
+        <th>Categorie</th>
         <th>Actions</th></tr>
     </thead>
     <tbody>
@@ -62,6 +64,24 @@ echo $_GET['motcle'];
        <td><img src="<?=$p['photo']?>" width="100"></td>
         <td><?=$p['libelle']?></td>
         <td><?=$p['prix']?></td>
+        <td><?=$p['place']?></td>
+        <td><?php 
+        
+        
+        $id=$p['categorie_id'];
+       $categorie= find($id,"categorie");
+    
+        
+        
+        
+        
+        ?>
+        
+        <img src="<?=$categorie['photo']?>" width="50"> <br>
+        <?=$categorie['nom']?>
+        
+        
+        </td>
         <td>    <a onclick="return confirm('supprimer?')"  href="delete.php?id=<?=$p['id']?>" class="btn btn-sm btn-danger">Supprimer</a>
 
         <a href="edit.php?id=<?=$p['id']?>" class="btn btn-sm btn-warning">Modifier</a>
