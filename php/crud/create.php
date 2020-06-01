@@ -16,7 +16,7 @@ include("modeles.php");
     <div class="row">
         <div class="col-md-6 shadow p-3 mx-auto mt-3">
 
-        <form action="store.php" method="post" enctype="multipart/form-data">
+        <form action="store.php""store.php" method="post" enctype="multipart/form-data">
 
 <fieldset>
 <legend class="text-primary text-center">Nouveau produit : </legend>
